@@ -1,5 +1,4 @@
-package application.dto;
-
+package com.barbermind.backend.booking.application.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,5 +15,5 @@ public record CreateAppointmentCommand(
         LocalDateTime startTime,
         int durationInMinutes,
         BigDecimal price
-)
-{}
+) {
+}

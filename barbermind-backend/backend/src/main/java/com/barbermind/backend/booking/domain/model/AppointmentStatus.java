@@ -1,4 +1,4 @@
-package domain.model;
+package com.barbermind.backend.booking.domain.model;
 
 /**
  * Representa el ciclo de vida de una cita en el sistema.

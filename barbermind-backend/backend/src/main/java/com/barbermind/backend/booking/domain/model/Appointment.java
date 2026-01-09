@@ -1,4 +1,4 @@
-package domain.model;
+package com.barbermind.backend.booking.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class Appointment {
     private final BigDecimal price;
 
     // Estado (Este campo cambiará durante la vida de la cita)
-    private final AppointmentStatus status;
+    private final com.barbermind.backend.booking.domain.model.AppointmentStatus status;
 
     // --- Constructor Privado ---
 
@@ -32,7 +32,7 @@ public class Appointment {
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
-        this.status = AppointmentStatus.PENDING;
+        this.status = com.barbermind.backend.booking.domain.model.AppointmentStatus.PENDING;
     }
 
     public static Appointment create(UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, int durationInMinutes, BigDecimal price) {
@@ -51,19 +51,42 @@ public class Appointment {
 
         UUID id = UUID.randomUUID();
 
-        LocalDateTime endTime =  startTime.plusMinutes(durationInMinutes);
+        LocalDateTime endTime = startTime.plusMinutes(durationInMinutes);
 
         return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price);
     }
 
     // --- Getters (Solo lectura) ---
 
-    public UUID getId() { return id; }
-    public UUID getCustomerId() { return customerId; }
-    public UUID getSalonId() { return salonId; }
-    public UUID getEmployeeId() { return employeeId; }
-    public LocalDateTime getStartTime() { return startTime; }
-    public LocalDateTime getEndTime() { return endTime; }
-    public BigDecimal getPrice() { return price; }
-    public AppointmentStatus getStatus() { return status; }
+    public UUID getId() {
+        return id;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public UUID getSalonId() {
+        return salonId;
+    }
+
+    public UUID getEmployeeId() {
+        return employeeId;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public com.barbermind.backend.booking.domain.model.AppointmentStatus getStatus() {
+        return status;
+    }
 }
