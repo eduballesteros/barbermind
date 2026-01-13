@@ -20,10 +20,9 @@ public class Appointment {
     private final BigDecimal price;
 
     // Estado (Este campo cambiará durante la vida de la cita)
-    private final com.barbermind.backend.booking.domain.model.AppointmentStatus status;
+    private final AppointmentStatus status;
 
     // --- Constructor Privado ---
-
     public Appointment(UUID id, UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, LocalDateTime endTime, BigDecimal price) {
         this.id = id;
         this.customerId = customerId;
@@ -32,12 +31,12 @@ public class Appointment {
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
-        this.status = com.barbermind.backend.booking.domain.model.AppointmentStatus.PENDING;
+        this.status = AppointmentStatus.PENDING;
     }
 
     public static Appointment create(UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, int durationInMinutes, BigDecimal price) {
 
-        if (customerId == null || salonId == null || employeeId == null) {
+        if (customerId == null || salonId == null || employeeId == null || startTime == null || durationInMinutes <= 0) {
             throw new IllegalArgumentException("Datos incompletos: cliente, salón y empleado son obligatorios.");
         }
 
@@ -66,7 +65,7 @@ public class Appointment {
         return customerId;
     }
 
-    public UUID getSalonId() {
+    public UUID getSalonId()  {
         return salonId;
     }
 
@@ -86,7 +85,7 @@ public class Appointment {
         return price;
     }
 
-    public com.barbermind.backend.booking.domain.model.AppointmentStatus getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 }
