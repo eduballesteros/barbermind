@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class Barber {
 
-    private final UUID barberId;
+    private final UUID id;
     private String firstName;
     private String lastName;
     private String email;
@@ -13,8 +13,8 @@ public class Barber {
     private Date dateOfHire;
     private BarberStatus status;
 
-    private Barber(UUID barberId, String firstName, String lastName, String email, String password, Date dateofHire) {
-        this.barberId = barberId;
+    private Barber(UUID id, String firstName, String lastName, String email, String password, Date dateofHire, BarberStatus status) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -23,7 +23,7 @@ public class Barber {
         this.status =BarberStatus.ACTIVE;
     }
 
-    public static Barber create (String firstName, String lastName, String email, String password, Date dateOfHire) {
+    public static Barber create (String firstName, String lastName, String email, String password, Date dateOfHire, BarberStatus status) {
 
         if (firstName == null || firstName.isBlank()) {
             throw new IllegalArgumentException("El nombre es obligatorio.");
@@ -43,13 +43,20 @@ public class Barber {
 
     UUID id = UUID.randomUUID();
 
-    return new Barber(id, firstName, lastName, email, password, dateOfHire);
+    return new Barber(id, firstName, lastName, email, password, dateOfHire, status);
 
     }
 
+    /**
+     * Factory method para reconstruir la entidad desde persistencia.
+     * Permite recuperar el estado exacto almacenado en la base de datos.
+     */
+    public static Barber reconstruct(UUID id, String firstName, String lastName, String email, String password, Date dateOfHire, BarberStatus status) {
+        return new Barber(id, firstName, lastName, email, password, dateOfHire, status);
+    }
     // Getters (Solo lectura)
-    public UUID getBarberId() {
-        return barberId;
+    public UUID getid() {
+        return id;
     }
 
     public String getFirstName() {

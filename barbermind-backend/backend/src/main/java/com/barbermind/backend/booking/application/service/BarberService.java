@@ -33,17 +33,18 @@ public class BarberService implements CreateBarberUseCase {
     @Override
     @Transactional
     public UUID createBarber(CreateBarberCommand command) {
+        // Asegúrate de que el orden coincida exactamente con el constructor/método de Barber
         Barber barber = Barber.create(
                 command.firstName(),
                 command.lastName(),
                 command.email(),
                 command.password(),
-                command.dateOfHire()
+                command.dateOfHire(),
+                command.status()
         );
 
         Barber savedBarber = barberRepositoryPort.save(barber);
-
-        return savedBarber.getBarberId();
+        return savedBarber.getid();
     }
 
 }

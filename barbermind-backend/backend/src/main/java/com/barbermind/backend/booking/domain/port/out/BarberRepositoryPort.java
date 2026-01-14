@@ -2,7 +2,6 @@ package com.barbermind.backend.booking.domain.port.out;
 
 import com.barbermind.backend.booking.domain.model.Barber;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,9 +13,11 @@ public interface BarberRepositoryPort {
 
     Barber save (Barber barber);
 
-    Barber findById (Long id);
+    Optional<Barber> findById (UUID id);
 
-    Barber findByName (String name);
+    Optional<Barber> findByName (String name);
+
+    Optional<Barber> findByEmail (String email);
 
     /**
      * @return Listado de barberos con estado {@code ACTIVE}.

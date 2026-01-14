@@ -24,6 +24,10 @@ public record CreateBarberCommand(
 
         @NotNull
         @PastOrPresent(message = "La fecha de contratación no puede ser futura")
-        Date dateOfHire)
+        Date dateOfHire,
+
+        @NotNull
+        BarberStatus status)
+
 {
 }
