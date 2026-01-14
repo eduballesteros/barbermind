@@ -23,7 +23,7 @@ public class Appointment {
     private final AppointmentStatus status;
 
     // --- Constructor Privado ---
-    public Appointment(UUID id, UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, LocalDateTime endTime, BigDecimal price) {
+    public Appointment(UUID id, UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, LocalDateTime endTime, BigDecimal price, AppointmentStatus status) {
         this.id = id;
         this.customerId = customerId;
         this.salonId = salonId;
@@ -34,7 +34,7 @@ public class Appointment {
         this.status = AppointmentStatus.PENDING;
     }
 
-    public static Appointment create(UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, int durationInMinutes, BigDecimal price) {
+    public static Appointment create(UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, int durationInMinutes, BigDecimal price, AppointmentStatus status) {
 
         if (customerId == null || salonId == null || employeeId == null || startTime == null || durationInMinutes <= 0) {
             throw new IllegalArgumentException("Datos incompletos: cliente, salón y empleado son obligatorios.");
@@ -52,7 +52,11 @@ public class Appointment {
 
         LocalDateTime endTime = startTime.plusMinutes(durationInMinutes);
 
-        return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price);
+        return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price, status);
+    }
+
+    public static Appointment reconstruct(UUID id, UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, LocalDateTime endTime, BigDecimal price, AppointmentStatus status){
+        return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price, status);
     }
 
     // --- Getters (Solo lectura) ---
