@@ -11,27 +11,12 @@ import java.util.UUID;
 
 @Repository
 public interface JpaBarberRepository extends JpaRepository<BarberEntity, UUID> {
-    /**
-     * @param email
-     * @return SELECT * FROM barbers WHERE email = ?
-     */
+
     Optional<BarberEntity> findByEmail(String email);
 
-    /**
-     * @param Id
-     * @return SELECT * FROM barbers WHERE id = ?
-     */
     Optional<BarberEntity> findById(UUID Id);
 
-    /**
-     * @param firstName
-     * @return SELECT * FROM barbers WHERE firstName = ? AND lastName = ?
-     */
     Optional<BarberEntity> findByFirstName(String firstName);
 
-    /**
-     * @param status
-     * @return SELECT * FROM barbers WHERE status = ?
-     */
     List<BarberEntity> findByStatus(BarberStatus status);
 }
