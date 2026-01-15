@@ -26,7 +26,8 @@ public class AppointmentService implements CreateAppointmentUseCase {
                command.employeeId(),
                command.startTime(),
                command.durationInMinutes(),
-               command.price()
+               command.price(),
+               command.status()
        );
 
        Appointment savedAppointment = appointmentRepositoryPort.save(appointment);

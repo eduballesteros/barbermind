@@ -34,6 +34,6 @@ public class AppointmentPersistenceMapper {
                 entity.getEndTime(),
                 entity.getPrice(),
                 entity.getStatus()
-        );+
+        );
     }
 }

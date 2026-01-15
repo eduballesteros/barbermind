@@ -1,4 +1,5 @@
 package com.barbermind.backend.booking.application.dto;
+import com.barbermind.backend.booking.domain.model.AppointmentStatus;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static io.lettuce.core.pubsub.PubSubOutput.Type.message;
 
 /**
  * Command (DTO): Representa la intención de crear una cita.
@@ -34,5 +37,8 @@ public record CreateAppointmentCommand(
 
         @NotNull(message = "El precio es obligatorio")
         @PositiveOrZero(message = "El precio no puede ser negativo")
-        BigDecimal price
+        BigDecimal price,
+
+        @NotNull
+        AppointmentStatus status
 ) {}
