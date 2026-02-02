@@ -31,7 +31,7 @@ public class Appointment {
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
-        this.status = AppointmentStatus.PENDING;
+        this.status = status;
     }
 
     public static Appointment create(UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, int durationInMinutes, BigDecimal price, AppointmentStatus status) {
@@ -52,7 +52,7 @@ public class Appointment {
 
         LocalDateTime endTime = startTime.plusMinutes(durationInMinutes);
 
-        return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price, status);
+        return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price, AppointmentStatus.PENDING);
     }
 
     public static Appointment reconstruct(UUID id, UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, LocalDateTime endTime, BigDecimal price, AppointmentStatus status){
