@@ -1,0 +1,1 @@
+package com.barbermind.backend.booking.domain.model;
