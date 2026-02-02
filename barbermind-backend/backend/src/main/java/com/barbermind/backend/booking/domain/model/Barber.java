@@ -20,7 +20,7 @@ public class Barber {
         this.email = email;
         this.password = password;
         this.dateOfHire = dateofHire;
-        this.status =BarberStatus.ACTIVE;
+        this.status = status;
     }
 
     public static Barber create (String firstName, String lastName, String email, String password, Date dateOfHire, BarberStatus status) {
@@ -43,7 +43,7 @@ public class Barber {
 
     UUID id = UUID.randomUUID();
 
-    return new Barber(id, firstName, lastName, email, password, dateOfHire, status);
+    return new Barber(id, firstName, lastName, email, password, dateOfHire, BarberStatus.ACTIVE);
 
     }
 
