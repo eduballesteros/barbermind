@@ -1,15 +1,13 @@
 package com.barbermind.backend.booking.infrastructure.adapter.in.controller;
 
 import com.barbermind.backend.booking.application.dto.CreateAppointmentCommand;
-import com.barbermind.backend.booking.domain.port.in.CreateAppointmentUseCase;
+import com.barbermind.backend.booking.domain.port.in.appointment.CancelAppointmentUseCase;
+import com.barbermind.backend.booking.domain.port.in.appointment.CreateAppointmentUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -19,6 +17,7 @@ import java.util.UUID;
 public class AppointmentController {
 
     private final CreateAppointmentUseCase createAppointmentUseCase;
+    private final CancelAppointmentUseCase cancelAppointmentUseCase;
 
     @PostMapping
     public ResponseEntity<UUID> createAppointment(@Valid @RequestBody CreateAppointmentCommand command){
@@ -28,4 +27,13 @@ public class AppointmentController {
                 .body(id);
     }
 
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<UUID> cancelAppointment(@PathVariable UUID id){
+
+        UUID cancelledID = cancelAppointmentUseCase.cancelAppointment(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(cancelledID);
+    }
 }

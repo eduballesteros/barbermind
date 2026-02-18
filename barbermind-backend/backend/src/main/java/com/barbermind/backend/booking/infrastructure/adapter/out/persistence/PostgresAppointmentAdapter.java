@@ -72,4 +72,10 @@ public class PostgresAppointmentAdapter implements AppointmentRepositoryPort {
         return  jpaRepository.findByStartTime(startTime)
                 .map(mapper::toDomain);
     }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return jpaRepository.existsById(id);
+    }
+
 }

@@ -37,4 +37,5 @@ public interface AppointmentRepositoryPort {
 
     Optional<Appointment> findByStartTime(LocalDateTime startTime);
 
+    boolean existsById(UUID id);
 }

@@ -55,6 +55,29 @@ public class Appointment {
         return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price, AppointmentStatus.PENDING);
     }
 
+    public Appointment cancel(){
+        if (status == AppointmentStatus.COMPLETED) {
+            throw new IllegalStateException("No se puede cancelar una cita que ya ha sido finalizada.");
+        }
+        return Appointment.reconstruct(
+                this.id,
+                this.customerId,
+                this.salonId,
+                this.employeeId,
+                this.startTime,
+                this.endTime,
+                this.price,
+                AppointmentStatus.CANCELLED
+        );
+    }
+
+    /**
+     * Reconstruye la instancia de la entidad a partir de datos provenientes de la capa de persistencia.
+     * * A diferencia del método de creación de negocio, este proceso restaura el estado actual
+     * del objeto sin disparar validaciones de nuevos registros ni generar identificadores únicos,
+     * asegurando la integridad de los datos históricos recuperados.
+     */
+
     public static Appointment reconstruct(UUID id, UUID customerId, UUID salonId, UUID employeeId, LocalDateTime startTime, LocalDateTime endTime, BigDecimal price, AppointmentStatus status){
         return new Appointment(id, customerId, salonId, employeeId, startTime, endTime, price, status);
     }
