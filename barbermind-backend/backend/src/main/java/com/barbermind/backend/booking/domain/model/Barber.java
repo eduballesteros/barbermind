@@ -47,6 +47,18 @@ public class Barber {
 
     }
 
+    public Barber delete() {
+        return Barber.reconstruct(
+                this.id,
+                this.firstName,
+                this.lastName,
+                this.email,
+                this.password,
+                this.dateOfHire,
+                BarberStatus.INACTIVE
+        );
+    }
+
     /**
      * Factory method para reconstruir la entidad desde persistencia.
      * Permite recuperar el estado exacto almacenado en la base de datos.

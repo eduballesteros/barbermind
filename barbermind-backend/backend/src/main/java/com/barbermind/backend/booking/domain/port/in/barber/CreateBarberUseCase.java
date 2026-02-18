@@ -1,4 +1,4 @@
-package com.barbermind.backend.booking.domain.port.in;
+package com.barbermind.backend.booking.domain.port.in.barber;
 
 import com.barbermind.backend.booking.application.dto.CreateBarberCommand;
 

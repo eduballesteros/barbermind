@@ -2,7 +2,8 @@ package com.barbermind.backend.booking.application.service;
 
 import com.barbermind.backend.booking.application.dto.CreateBarberCommand;
 import com.barbermind.backend.booking.domain.model.Barber;
-import com.barbermind.backend.booking.domain.port.in.CreateBarberUseCase;
+import com.barbermind.backend.booking.domain.port.in.barber.CreateBarberUseCase;
+import com.barbermind.backend.booking.domain.port.in.barber.DeleteBarberUseCase;
 import com.barbermind.backend.booking.domain.port.out.BarberRepositoryPort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,19 +18,10 @@ import java.util.UUID;
  */
 @Service
 @RequiredArgsConstructor
-public class BarberService implements CreateBarberUseCase {
+public class BarberService implements CreateBarberUseCase, DeleteBarberUseCase {
 
     private final BarberRepositoryPort barberRepositoryPort;
 
-    /**
-     * Coordina el proceso de alta de un nuevo barbero.
-     * * El método delega la lógica de construcción y validación invariante al
-     * agregado de dominio {@link Barber}, asegurando que la persistencia
-     * solo ocurra si el estado resultante es válido.
-     *
-     * @param command Datos de entrada validados en capa de transporte.
-     * @return Identificador único del recurso creado.
-     */
     @Override
     @Transactional
     public UUID createBarber(CreateBarberCommand command) {
@@ -47,4 +39,20 @@ public class BarberService implements CreateBarberUseCase {
         return savedBarber.getid();
     }
 
+
+    @Transactional
+    @Override
+    public UUID deleteBarber(UUID id) {
+        if(!barberRepositoryPort.existsById(id))
+            throw new IllegalArgumentException("No se puede desactivar: Barbero no encontrado con ID: \" + id");
+
+        Barber barber = barberRepositoryPort.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Error inesperado: la acción desapareció durante el proceso."));
+
+        Barber deletedBarber = barber.delete();
+
+        Barber savedBarber = barberRepositoryPort.save(deletedBarber);
+
+        return savedBarber.getid();
+    }
 }

@@ -23,4 +23,6 @@ public interface BarberRepositoryPort {
      * @return Listado de barberos con estado {@code ACTIVE}.
      */
     List<Barber> findAllActive();
+
+    boolean existsById (UUID id);
 }

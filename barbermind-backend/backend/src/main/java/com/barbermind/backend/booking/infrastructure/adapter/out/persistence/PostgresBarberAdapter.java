@@ -56,4 +56,11 @@ public class PostgresBarberAdapter implements BarberRepositoryPort {
                 .map(mapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return jpaRepository.existsById(id);
+    }
+
+
 }
