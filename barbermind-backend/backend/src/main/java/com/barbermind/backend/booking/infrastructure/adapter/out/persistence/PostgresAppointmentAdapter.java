@@ -8,9 +8,7 @@ import com.barbermind.backend.booking.infrastructure.adapter.out.persistence.rep
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -76,6 +74,14 @@ public class PostgresAppointmentAdapter implements AppointmentRepositoryPort {
     @Override
     public boolean existsById(UUID id) {
         return jpaRepository.existsById(id);
+    }
+
+    @Override
+    public List<Appointment> findAll() {
+        return jpaRepository.findAll()
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 
 }

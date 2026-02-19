@@ -1,19 +1,23 @@
 package com.barbermind.backend.booking.application.service;
 
+import com.barbermind.backend.booking.application.dto.AppointmentSearchCriteria;
 import com.barbermind.backend.booking.application.dto.CreateAppointmentCommand;
 import com.barbermind.backend.booking.domain.model.Appointment;
 import com.barbermind.backend.booking.domain.port.in.appointment.CancelAppointmentUseCase;
 import com.barbermind.backend.booking.domain.port.in.appointment.CreateAppointmentUseCase;
+import com.barbermind.backend.booking.domain.port.in.appointment.SearchAppointmentUseCase;
 import com.barbermind.backend.booking.domain.port.out.AppointmentRepositoryPort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AppointmentService implements CreateAppointmentUseCase, CancelAppointmentUseCase {
+public class AppointmentService implements CreateAppointmentUseCase, CancelAppointmentUseCase, SearchAppointmentUseCase {
 
    private final AppointmentRepositoryPort appointmentRepositoryPort;
 
@@ -53,5 +57,17 @@ public class AppointmentService implements CreateAppointmentUseCase, CancelAppoi
 
        return savedAppointment.getId();
    }
+
+
+    @Override
+    public List<Appointment> search(AppointmentSearchCriteria criteria) {
+        return appointmentRepositoryPort.findAll()
+                .stream()
+                .filter(app -> criteria.employeeId() == null || app.getEmployeeId().equals(criteria.employeeId()))
+                .filter(app -> criteria.date() == null || app.getStartTime().toLocalDate().equals(criteria.date()))
+                .filter(app -> criteria.status() == null || app.getStatus() ==criteria.status())
+                .sorted(Comparator.comparing(Appointment::getStartTime))
+                .toList();
+    }
 }
 
