@@ -4,11 +4,14 @@ import com.barbermind.backend.booking.application.dto.CreateBarberCommand;
 import com.barbermind.backend.booking.domain.model.Barber;
 import com.barbermind.backend.booking.domain.port.in.barber.CreateBarberUseCase;
 import com.barbermind.backend.booking.domain.port.in.barber.DeleteBarberUseCase;
+import com.barbermind.backend.booking.domain.port.in.barber.SearchBarbersUseCase;
 import com.barbermind.backend.booking.domain.port.out.BarberRepositoryPort;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -18,7 +21,7 @@ import java.util.UUID;
  */
 @Service
 @RequiredArgsConstructor
-public class BarberService implements CreateBarberUseCase, DeleteBarberUseCase {
+public class BarberService implements CreateBarberUseCase, DeleteBarberUseCase, SearchBarbersUseCase {
 
     private final BarberRepositoryPort barberRepositoryPort;
 
@@ -54,5 +57,27 @@ public class BarberService implements CreateBarberUseCase, DeleteBarberUseCase {
         Barber savedBarber = barberRepositoryPort.save(deletedBarber);
 
         return savedBarber.getid();
+    }
+
+    /**
+     * Busca barberos activos basándose en un criterio de búsqueda.
+     * El filtrado se realiza sobre el nombre y el apellido, siendo insensible a mayúsculas.
+     * Los resultados se devuelven ordenados alfabéticamente por nombre.
+     *
+     * @param query Término de búsqueda (nombre o apellido).
+     * @return Lista de barberos filtrados y ordenados.
+     */
+
+    @Override
+    public List<Barber> searchByQuery(String query) {
+
+        return barberRepositoryPort.findAllActive()
+                .stream()
+                .filter(barber ->
+                        barber.getFirstName().toLowerCase().contains(query.toLowerCase()) ||
+                                barber.getLastName().toLowerCase().contains(query.toLowerCase())
+                )
+                .sorted(Comparator.comparing(Barber::getFirstName))
+                .toList();
     }
 }
