@@ -47,5 +47,7 @@ public class BarberController {
 
         return ResponseEntity.ok(results);
     }
+
+
 }
 
